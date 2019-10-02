@@ -1,14 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import store from './store'
-import { Provider, useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import FormCreate from './components/product/FormCreate';
 import Home from './components/product/Home';
+import FormEdit from './components/product/FormEdit';
+import Footer from './components/html/Footer';
+
+import Login from './components/login/Login'
 
 function App() {
 
@@ -17,19 +20,16 @@ function App() {
       <Provider store={store}>
         <Router>
           <div>
-            <Navbar className="navbar-dark bg-dark" expand="md" style={{ color: "#1B8294" }}>
+            <Navbar className="navbar navbar-expand-sm py-1" expand="md" style={{ color: "#1B8294" }}>
               <NavbarBrand href="/">Proyecto FCO</NavbarBrand>
               <NavbarToggler />
               <Collapse navbar>
                 <Nav className="ml-auto" navbar>
-                <NavItem>
+                  <NavItem>
                     <NavLink href="/product">List Product</NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href="/">Logout</NavLink>
-                  </NavItem>
-                  <NavItem>
-
+                    <NavLink href="/login">Logout</NavLink>
                   </NavItem>
                 </Nav>
               </Collapse>
@@ -41,8 +41,14 @@ function App() {
                 {/* <Users /> */}
               </Route>
               <Route path="/createproduct" component={Home} />
-              <Route path="/create"  component={FormCreate} />
+              <Route path="/create" component={FormCreate} />
+              <Route path="/edit" component={FormEdit} />
             </Switch>
+            <Route path="/login" exact component={Login} />
+
+
+
+            <Footer/>
           </div>
         </Router>
       </Provider>

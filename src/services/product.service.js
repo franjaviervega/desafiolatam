@@ -20,7 +20,7 @@ export const productGetAll = async (data) => {
 
 export const productCreate = async (data) => {
     try {
-        return await axios.post(`${apiHost}/api/product/`, data,{
+        return await axios.post(`${apiHost}/api/product/`, data,{ 
             headers: {
                 data: data,
             },
@@ -46,3 +46,20 @@ export const productDelete = async (data) => {
         throw new ApiError(error.message);
     }
 };
+
+export const productEdit = async (data) => {
+    console.log(data.id,data);
+    //debugger
+    try {
+        return await axios.put(`${apiHost}/api/product/${data.id}`,data,{
+            headers: {
+                data: data,
+            },
+        });
+    } catch (error) {
+        const status = error.response;
+        if (status === 404) throw new ApiError('404');
+        throw new ApiError(error.message);
+    }
+};
+

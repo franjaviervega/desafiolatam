@@ -1,44 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { Form, FormGroup, Input, Button, Label, Container } from 'reactstrap';
+import React from 'react';
+import { Form, FormGroup, Input, Button, Label, CardHeader, Container } from 'reactstrap';
 import useGenericInput from './../../hooks/useGenericInput'
-import { productAsyncCreatorCreate } from './../../store/modules/product/product.action';
 import { useDispatch } from 'react-redux';
+import {productAsyncCreatorEdit} from './../../store/modules/product/product.action';
 import { Link } from "react-router-dom";
 
 
 
-const FormCreate = (props) => {
-    const name = useGenericInput('', 'text');
-    const price = useGenericInput('', 'text');
-    const detail = useGenericInput('', 'text')
-
+const FormEdit = (props) => {
+    const data = props.location.state;
+    const id = data.data.id;
+    const name = useGenericInput(data.data.name, 'text');
+    const price = useGenericInput(data.data.price, 'text');
+    const detail = useGenericInput(data.data.detail, 'text')
     const dispatch = useDispatch();
-    const [registro, setRegistro] = useState(false);
     const buttonIsDisabled = () => name.value === '' || price.value === '' || detail.value === '';
-
 
     const handled = (e) => {
         e.preventDefault();
         let array = {
+            "id": id,
             "name": name.value,
             "price": price.value,
             "detail": detail.value
         }
-        dispatch(productAsyncCreatorCreate(array));
-        setRegistro(true);
-        props.history.push("/product");
-
-
+        dispatch(productAsyncCreatorEdit(array));
+        setTimeout(() => {
+            props.history.push("/product");
+        }, 100);
     }
-
-    useEffect(() => {
-        //Recarga de datos al modificarse "registro"
-    }, [registro])
-
-
 
     return (
         <Container>
+            <CardHeader>
+                <h3>Edit</h3>
+            </CardHeader>
             <Form onSubmit={handled}>
                 <FormGroup>
                     <Label>Name</Label>
@@ -52,8 +48,8 @@ const FormCreate = (props) => {
                     <Label>Detail</Label>
                     <Input {...detail} />
                 </FormGroup>
-                <Button color='success' className="float-right" disabled={buttonIsDisabled()} type="submit" >Add</Button>
-                
+                <Button color='success' className="float-right" disabled={buttonIsDisabled()} type="submit" >Save</Button>
+
                 <Link to="/product">
                     <Button color='danger' className="float-left" type="submit"  >Cancel</Button>
                 </Link>
@@ -63,4 +59,4 @@ const FormCreate = (props) => {
     )
 }
 
-export default FormCreate;
+export default FormEdit;

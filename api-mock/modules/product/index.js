@@ -1,5 +1,8 @@
 var middleware = require("../../jwt/middleware");
 //const { encryptPassword } = require('../../crypto');
+const {
+    encryptPassword
+} = require('../../crypto');
 
 /**
  * 
@@ -25,7 +28,7 @@ const productModule = (app, db) => {
     });
 
 
-    app.get("/api/product/:id", (req, res, next) => {
+    /*app.get("/api/product/:id", (req, res, next) => {
         var sql = "select * from product where id = ?"
         var params = [req.params.id]
         db.get(sql, params, (err, row) => {
@@ -40,7 +43,7 @@ const productModule = (app, db) => {
                 })
             }, 1000);
         });
-    });
+    });*/
 
     app.post("/api/product", async (req, res, next) => {
 
@@ -54,7 +57,7 @@ const productModule = (app, db) => {
         if (!req.body.detail) {
             errors.push("No detail specified");
         }
-        
+
         var data = {
             name: req.body.name,
             price: req.body.price,
@@ -62,7 +65,7 @@ const productModule = (app, db) => {
         }
         var sql = 'INSERT INTO product (name, price, detail) VALUES (?,?,?)'
         var params = [data.name, data.price, data.detail]
-        db.run(sql, params, function(err, result) {
+        db.run(sql, params, function (err, result) {
             if (err) {
                 res.status(400).json({ "error": err.message })
                 return;
@@ -76,9 +79,23 @@ const productModule = (app, db) => {
     })
 
 
-
-    app.patch("/api/product/:id", middleware.ensureToken, async (req, res, next) => {
-        
+    app.put("/api/product/:id",async (req, res, next) => {
+        var errors = []
+        if (!req.body.name) {
+            errors.push("No name specified");
+        }
+        if (!req.body.price) {
+            errors.push("No price specified");
+        }
+        if (!req.body.detail) {
+            errors.push("No detail specified");
+        }
+        if (errors.length) {
+            res.status(400).json({
+                "error": errors.join(",")
+            });
+            return;
+        }
         var data = {
             name: req.body.name,
             price: req.body.price,
@@ -89,11 +106,12 @@ const productModule = (app, db) => {
                name = coalesce(?,name), 
                price = COALESCE(?,price), 
                detail = COALESCE(?,detail)
-               
                WHERE id = ?`, [data.name, data.price, data.detail, req.params.id],
             (err, result) => {
                 if (err) {
-                    res.status(400).json({ "error": res.message })
+                    res.status(400).json({
+                        "error": res.message
+                    })
                     return;
                 }
                 res.json({
@@ -108,7 +126,7 @@ const productModule = (app, db) => {
         db.run(
             'DELETE FROM product WHERE id = ?',
             req.params.id,
-            function(err, result) {
+            function (err, result) {
                 if (err) {
                     res.status(400).json({ "error": res.message })
                     return;

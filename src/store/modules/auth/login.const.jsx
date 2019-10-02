@@ -1,7 +1,9 @@
-const MODULE = 'auth';
-const ACTION = 'login';
+const MODULE = 'AUTH';
+const LOGIN = 'LOGIN';
 
-// Status
-export const START = `${MODULE}/${ACTION}/start`;
-export const SUCCESS = `${MODULE}/${ACTION}/success`;
-export const ERROR = `${MODULE}/${ACTION}/error`;
+//status de constantes
+export const AUTH_LOGIN_START = `${MODULE}/${LOGIN}/START`;
+export const AUTH_LOGIN_SUCCESS = `${MODULE}/${LOGIN}/SUCCESS`;
+export const AUTH_LOGIN_ERROR = `${MODULE}/${LOGIN}/ERROR`;
+
+export const AUTH_LOGOUT = `${MODULE}/${LOGIN}/LOGOUT`;

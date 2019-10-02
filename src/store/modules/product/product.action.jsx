@@ -1,4 +1,4 @@
-import { productGetAll, productCreate, productDelete } from './../../../services/product.service'
+import { productGetAll, productCreate, productDelete, productEdit } from './../../../services/product.service'
 import { START, SUCCESS, ERROR } from './product.const';
 
 //funciones puras y sincronas, llaman a redux para hacer el cambio de estado
@@ -22,11 +22,12 @@ export const productAsyncCreatorGetAll = () => {
         productGetAll().then(res => {
             dispatch(productActionSuccess(res.data.data));
         }).catch(error => {
-            dispatch(productActionError(error.data.data))
+            dispatch(productActionError(error))
         })
 
     }
 }
+
 export const productAsyncCreatorCreate = (data) => {
     return (dispatch) => {
         dispatch(productActionStart());
@@ -34,7 +35,7 @@ export const productAsyncCreatorCreate = (data) => {
 
             dispatch(productActionSuccess());
         }).catch(error => {
-            dispatch(productActionError(error.data));
+            dispatch(productActionError(error.data.data));
         });
     }
 }
@@ -43,7 +44,18 @@ export const productAsyncCreatorDelete = (data) => {
     return (dispatch)=>{
        dispatch(productActionStart());
        productDelete(data).then(res=>{
-         dispatch(productActionSuccess(res.data.data));  
+         dispatch(productActionSuccess());  
+     }).catch(error=>{
+         dispatch(productActionError(error.data.data)); 
+     });
+   }
+}
+
+export const productAsyncCreatorEdit = (data) => {
+    return (dispatch)=>{
+       dispatch(productActionStart());
+       productEdit(data).then(res=>{
+         dispatch(productActionSuccess());  
      }).catch(error=>{
          dispatch(productActionError(error));
      });
