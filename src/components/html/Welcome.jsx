@@ -7,7 +7,7 @@ const Welcome = (props) => {
     }, 10);
     return (
         <div className="mb-4">
-            Welcome
+            <h3>Welcome</h3>
         </div>
     );
 }
