@@ -1,0 +1,7 @@
+Ejecutar api-mock
+Ejecutar App de React (desafiolatam)
+
+Clave para ingresar al sistema
+user: admin
+password: admin1234
+
