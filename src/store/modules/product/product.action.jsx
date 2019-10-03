@@ -29,7 +29,6 @@ export const productAsyncCreatorGetAll = () => {
 }
 
 export const productAsyncCreatorCreate = (data) => {
-    console.log();
     return (dispatch) => {
         dispatch(productActionStart());
         productCreate(data).then(res => {

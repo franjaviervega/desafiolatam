@@ -24,6 +24,7 @@ const userModule = (app, db) => {
                     sign(p_username, (err, token) => {
                         res.send({
                             token,
+                            ok: true,
                             message: "success"
                         })
                     });
@@ -31,7 +32,7 @@ const userModule = (app, db) => {
             } else {
                 res.send({
                     ok: false,
-                    message: "ERROR !!!!!!!!!!!!!!"
+                    message: "Wrong User!"
                 })
             }
         })

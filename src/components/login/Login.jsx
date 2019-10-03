@@ -7,6 +7,8 @@ import { loginActionsAsyncCreator } from './../../store/modules/auth/login.actio
 const Login = (props) => {
     const dispatch = useDispatch();
     const jwt = useSelector(store => store.rootReducer.auth.data);
+    const error = useSelector(store => store.rootReducer.auth.error);
+    const errorMessage = useSelector(store => store.rootReducer.auth.errorMessage);
     const email = useGenericInput('', 'email');
     const password = useGenericInput('', 'password');
 
@@ -14,10 +16,11 @@ const Login = (props) => {
 
   
     useEffect(() => {
-        if (jwt !== null) {
+        
+        if (jwt !== null && jwt !== undefined) {
             props.history.push('/welcome')
         }
-    }, [jwt])
+    }, [jwt,error])
     
     
     return (
@@ -43,6 +46,7 @@ const Login = (props) => {
                                     onClick={() => dispatch(loginActionsAsyncCreator(email.value, password.value))}
                                 >Login</Button>
                             </Form></CardBody>
+                            {error && (<div>{errorMessage}</div>)}
                     </Card>
                 </Col>
             </Row>

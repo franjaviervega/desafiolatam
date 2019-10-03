@@ -30,10 +30,17 @@ const errorActionCreator = (errorMessage) => ({
 export const loginActionsAsyncCreator = (email, password) => {
     return (dispatch, getStore) => {
         dispatch(startActionCreator());
-
         loginService({username: email, password: password }).then(data => {
             localStorage['token']= data.token;
-            dispatch(successActionCreator(data.data));
+            
+            if(data.ok === true){
+                dispatch(successActionCreator(data.token));
+            }else{
+                dispatch(errorActionCreator(data.message));
+            }
+                
+            
+                
         }).catch(err => {
             dispatch(errorActionCreator(err));
         })
