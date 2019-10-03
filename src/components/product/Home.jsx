@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import Loader from 'react-loader-spinner'
 
 import {FaDog as IcoAdd, FaTrash as IcoDelete,FaRegEdit as IcoEdit } from 'react-icons/fa';
+import Logout from './../login/Logout'
+
 
 const Home = (props) => {
     const dispatch = useDispatch();
@@ -13,18 +15,13 @@ const Home = (props) => {
         dispacth(productAsyncCreatorGetAll())
     }*/
 
+    //ejecuta accion para crear 
     useEffect(() => {
-        dispatch(productAsyncCreatorGetAll());
+        dispatch(productAsyncCreatorGetAll()); 
     }, []);
 
     const data = useSelector(datos => datos.product.getAll.data);
     const handleDelete = (e) => {
-        let array = {
-            "id": e.id,
-            "name": e.name,
-            "price": e.price,
-            "detail": e.detail
-        }
         dispatch(productAsyncCreatorDelete(e))
         setTimeout(() => {
             props.history.push("/product");

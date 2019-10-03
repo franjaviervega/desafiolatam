@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
 import store from './store'
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { Provider, useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import FormCreate from './components/product/FormCreate';
@@ -12,6 +12,9 @@ import FormEdit from './components/product/FormEdit';
 import Footer from './components/html/Footer';
 
 import Login from './components/login/Login'
+import PrivateRoute from './components/private-route/PrivateRoute';
+import Logout from './components/login/Logout'
+import Welcome from './components/html/Welcome';
 
 function App() {
 
@@ -26,25 +29,23 @@ function App() {
               <Collapse navbar>
                 <Nav className="ml-auto" navbar>
                   <NavItem>
-                    <NavLink href="/product">List Product</NavLink>
+                  <NavLink>  <Button href="/product">List Product</Button></NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href="/login">Logout</NavLink>
+                  <NavLink><PrivateRoute path="/" component={Logout} /></NavLink>
                   </NavItem>
                 </Nav>
               </Collapse>
             </Navbar>
             <Switch>
-              {/* exact  */}
-              <Route path="/product" component={Home} />
-              <Route path="/users">
-                {/* <Users /> */}
-              </Route>
-              <Route path="/createproduct" component={Home} />
-              <Route path="/create" component={FormCreate} />
-              <Route path="/edit" component={FormEdit} />
-            </Switch>
-            <Route path="/login" exact component={Login} />
+              <PrivateRoute path="/product" exact component={Home} />
+              <PrivateRoute  path="/create" exact component={FormCreate} />
+              <PrivateRoute  path="/edit" exact component={FormEdit} />
+              <PrivateRoute  path="/welcome" exact component={Welcome} />
+            </Switch> 
+            
+
+            <Route path="/" exact component={Login} />
 
 
 

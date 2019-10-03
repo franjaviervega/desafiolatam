@@ -2,13 +2,13 @@ import axios from 'axios';
 import { apiHost } from '../configure';
 
 class ApiError extends Error { }
-const prevJwt = () => JSON.parse(localStorage.getItem('jwt')) || '';
+const prevJwt = localStorage.getItem('token');
 
 export const productGetAll = async (data) => {
     try {
         return await axios.get(`${apiHost}/api/product`, {
             headers: {
-                authorization: `bearer ${prevJwt().token}`,
+                authorization: `bearer ${prevJwt}`,
             },
         });
     } catch (error) {
@@ -19,9 +19,11 @@ export const productGetAll = async (data) => {
 };
 
 export const productCreate = async (data) => {
+    console.log();
     try {
         return await axios.post(`${apiHost}/api/product/`, data,{ 
             headers: {
+                authorization: `bearer ${prevJwt}`,
                 data: data,
             },
         });
@@ -34,9 +36,9 @@ export const productCreate = async (data) => {
 
 export const productDelete = async (data) => {
     try {
-        return await axios.delete(`${apiHost}/api/product/${data.id}`,data,{
+        return await axios.delete(`${apiHost}/api/product/${data.id}`,{
             headers: {
-                // authorization: `bearer ${prevJwt().token}`,
+                authorization: `bearer ${prevJwt}`,
                 data: data,
             },
         });
@@ -53,6 +55,7 @@ export const productEdit = async (data) => {
     try {
         return await axios.put(`${apiHost}/api/product/${data.id}`,data,{
             headers: {
+                authorization: `bearer ${prevJwt}`,
                 data: data,
             },
         });

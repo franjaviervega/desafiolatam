@@ -6,18 +6,19 @@ import { loginActionsAsyncCreator } from './../../store/modules/auth/login.actio
 
 const Login = (props) => {
     const dispatch = useDispatch();
-    //const jwt = useSelector(store => store.auth.login.data);
+    const jwt = useSelector(store => store.rootReducer.auth.data);
     const email = useGenericInput('', 'email');
     const password = useGenericInput('', 'password');
 
     const buttonIsDisabled = () => password.value === '' || email.value === '';
-/*
+
+  
     useEffect(() => {
         if (jwt !== null) {
-            props.history.push('dashboard/users')
+            props.history.push('/welcome')
         }
     }, [jwt])
-    */
+    
     
     return (
         <Container className="mt-4">
@@ -31,7 +32,7 @@ const Login = (props) => {
                                 </pre>
                                 <FormGroup>
                                     <Label>Email</Label>
-                                    <Input {...email} />
+                                    <Input {...email} />    
                                 </FormGroup>
                                 <FormGroup>
                                     <Label>Password</Label>

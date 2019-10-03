@@ -1,39 +1,55 @@
-import { START, SUCCESS, ERROR } from './login.const';
+import { AUTH_LOGIN_START, AUTH_LOGIN_SUCCESS, AUTH_LOGIN_ERROR,AUTH_LOGOUT } from './login.const';
+
 
 const initialState = {
-    loading: false,
     data: null,
-    success: null,
     error: null,
+    success: null,
     errorMessage: '',
+    loading: false,
 };
 
 const loginReducer = (prevState = initialState, action) => {
     switch (action.type) {
-        case START:
+        case AUTH_LOGIN_START:
             return {
                 ...prevState,
                 loading: true,
-            }
-        case SUCCESS:
+            };
+
+        case AUTH_LOGIN_SUCCESS:
+            localStorage.setItem('jwt', action.payload);
             return {
                 ...prevState,
-                error: false,
-                loading: false,
-                success: true,
                 data: action.payload,
-            }
-        case ERROR:
+                loading: false,
+                error: false,
+                success: true,
+            };
+
+        case AUTH_LOGIN_ERROR:
             return {
                 ...prevState,
-                error: true,
                 loading: false,
+                error: true,
                 success: false,
                 errorMessage: action.payload,
-            }
+            };
+
+        case AUTH_LOGOUT:
+            localStorage.clear();
+            return {
+                ...prevState,
+                data: null,
+                loading: false,
+                error: false,
+                success: false,
+                errorMessage: '',
+            };
+
         default:
             return prevState;
     }
-};
+}
 
 export default loginReducer;

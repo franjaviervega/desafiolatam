@@ -29,13 +29,13 @@ export const productAsyncCreatorGetAll = () => {
 }
 
 export const productAsyncCreatorCreate = (data) => {
+    console.log();
     return (dispatch) => {
         dispatch(productActionStart());
         productCreate(data).then(res => {
-
             dispatch(productActionSuccess());
         }).catch(error => {
-            dispatch(productActionError(error.data.data));
+            dispatch(productActionError(error.data));
         });
     }
 }
@@ -44,9 +44,10 @@ export const productAsyncCreatorDelete = (data) => {
     return (dispatch)=>{
        dispatch(productActionStart());
        productDelete(data).then(res=>{
-         dispatch(productActionSuccess());  
+        dispatch(productAsyncCreatorGetAll()); 
+        dispatch(productActionSuccess());  
      }).catch(error=>{
-         dispatch(productActionError(error.data.data)); 
+         dispatch(productActionError(error.data)); 
      });
    }
 }

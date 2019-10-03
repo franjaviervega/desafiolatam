@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 
 
-const FormEdit = (props) => {
+const FormEdit = (props) => { 
     const data = props.location.state;
     const id = data.data.id;
     const name = useGenericInput(data.data.name, 'text');

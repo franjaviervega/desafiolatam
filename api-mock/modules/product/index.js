@@ -10,7 +10,7 @@ const {
  * @param {Database} db 
  */
 const productModule = (app, db) => {
-    app.get("/api/product", (req, res, next) => {
+    app.get("/api/product", middleware.ensureToken, async(req, res, next) => {
         var sql = "select * from product"
         var params = []
         db.all(sql, params, (err, rows) => {
@@ -20,7 +20,7 @@ const productModule = (app, db) => {
             }
             setTimeout(() => {
                 res.json({
-                    "message": "success",
+                    "message": "success", 
                     "data": rows
                 })
             }, 2000);
@@ -45,8 +45,8 @@ const productModule = (app, db) => {
         });
     });*/
 
-    app.post("/api/product", async (req, res, next) => {
-
+    app.post("/api/product", middleware.ensureToken, async (req, res, next) => {
+        console.log(req);
         var errors = []
         if (!req.body.name) {
             errors.push("No name specified");
@@ -79,7 +79,7 @@ const productModule = (app, db) => {
     })
 
 
-    app.put("/api/product/:id",async (req, res, next) => {
+    app.put("/api/product/:id", middleware.ensureToken, async (req, res, next) => {
         var errors = []
         if (!req.body.name) {
             errors.push("No name specified");
@@ -122,7 +122,7 @@ const productModule = (app, db) => {
     })
 
 
-    app.delete("/api/product/:id", (req, res, next) => {
+    app.delete("/api/product/:id", middleware.ensureToken, (req, res, next) => {
         db.run(
             'DELETE FROM product WHERE id = ?',
             req.params.id,
